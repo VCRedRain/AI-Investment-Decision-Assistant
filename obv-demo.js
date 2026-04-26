@@ -152,6 +152,15 @@
         }
     };
 
+    const observeDetailSection = () => {
+        const detailSection = document.getElementById('detail-section');
+        if (!detailSection || typeof MutationObserver === 'undefined') return;
+        const observer = new MutationObserver(() => {
+            tryRenderFromState();
+        });
+        observer.observe(detailSection, { attributes: true, attributeFilter: ['style', 'class'] });
+    };
+
     document.addEventListener('DOMContentLoaded', () => {
         const viewDetailBtn = document.getElementById('view-detail-btn');
         if (viewDetailBtn) {
@@ -168,6 +177,11 @@
             });
         });
 
+        window.addEventListener('obv-demo-refresh', () => {
+            setTimeout(tryRenderFromState, 100);
+        });
+
+        observeDetailSection();
         setInterval(tryRenderFromState, 600);
     });
 })();
