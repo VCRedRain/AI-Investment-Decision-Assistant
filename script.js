@@ -737,6 +737,59 @@ function displayResults() {
     elements.aiScoreSection.scrollIntoView({ behavior: 'smooth' });
 }
 
+// 1) Add this helper near other utility functions (e.g., after displayResults or near switchTab)===============
+function notifyObvDemoRefresh() {
+    // Notify OBV module to re-check current stock + visible state
+    window.dispatchEvent(new CustomEvent('obv-demo-refresh'));
+}
+
+// 2) In displayResults(), call it at the end:
+function displayResults() {
+    // 顯示 AI 評分卡片
+    displayAIScore();
+
+    // 顯示摘要
+    displaySummary();
+
+    // 顯示詳細報告
+    displayDetailReport();
+
+    // 顯示匯出按鈕
+    elements.exportPdfBtn.style.display = 'inline-flex';
+
+    // 滾動到 AI 評分卡片
+    elements.aiScoreSection.scrollIntoView({ behavior: 'smooth' });
+
+    // NEW: notify OBV demo to refresh
+    notifyObvDemoRefresh();
+}
+
+// 3) In the View Detail button handler inside bindEvents(), add notify:
+if (elements.viewDetailBtn) {
+    elements.viewDetailBtn.addEventListener('click', () => {
+        elements.detailSection.style.display = 'block';
+        elements.detailSection.scrollIntoView({ behavior: 'smooth' });
+
+        // NEW
+        notifyObvDemoRefresh();
+    });
+}
+
+// 4) In switchTab(tabName), notify when technical tab is activated:
+function switchTab(tabName) {
+    elements.tabBtns.forEach(btn => btn.classList.remove('active'));
+    document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
+
+    document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
+    document.getElementById(`${tabName}-tab`).classList.add('active');
+
+    // NEW
+    if (tabName === 'technical') {
+        notifyObvDemoRefresh();
+    }
+}
+//edit=============================================
+
 function displayAIScore() {
     const { aiScore } = analysisData;
 
