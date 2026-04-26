@@ -67,6 +67,15 @@
         return `${symbol}：最新 OBV ${formatNumber(latest)}，日變化 ${formatNumber(delta)}，趨勢${trend}，${descriptor}。`;
     };
 
+    const resolveState = () => {
+        const resolvedCurrentStock = typeof currentStock !== 'undefined' ? currentStock : window.currentStock;
+        const resolvedAnalysisData = typeof analysisData !== 'undefined' ? analysisData : window.analysisData;
+        return {
+            symbol: resolvedCurrentStock || resolvedAnalysisData?.stock,
+            analysisData: resolvedAnalysisData
+        };
+    };
+
     const renderObvChart = (symbol) => {
         const data = MOCK_OBV_DATA[symbol];
         const textEl = document.getElementById('obv-text');
@@ -134,7 +143,7 @@
 
     const tryRenderFromState = () => {
         const detailSection = document.getElementById('detail-section');
-        const symbol = window.currentStock || window.analysisData?.stock;
+        const { symbol } = resolveState();
         if (!detailSection || detailSection.style.display === 'none' || !symbol) return;
 
         if (symbol !== lastRenderedSymbol) {
