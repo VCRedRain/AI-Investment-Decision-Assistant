@@ -5,6 +5,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI投資決策小幫手</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        .obv-section {
+            margin-top: 20px;
+            background: #f8fbff;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .obv-section h3 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .obv-description {
+            color: var(--text-light);
+            margin-bottom: 12px;
+        }
+
+        .obv-chart-container {
+            position: relative;
+            height: 260px;
+        }
+
+        .obv-text {
+            margin-top: 12px;
+            font-size: 0.95em;
+            color: var(--text-color);
+            background: #fff;
+            border-radius: 8px;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        .obv-note {
+            font-size: 0.85em;
+            color: var(--text-light);
+            margin-top: 8px;
+        }
+    </style>
     <!-- Chart.js for visualizations -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
     <!-- jsPDF for PDF export -->
@@ -292,6 +332,15 @@
                         <div class="tab-content">
                             <div id="technical-tab" class="tab-pane active">
                                 <div id="technical-content" class="content-area">載入中...</div>
+                                <div class="obv-section" id="obv-section">
+                                    <h3>📊 OBV 指標（示範資料）</h3>
+                                    <p class="obv-description">以成交量與價格變化累積形成 OBV，示範呈現量價趨勢。</p>
+                                    <div class="obv-chart-container">
+                                        <canvas id="obv-chart"></canvas>
+                                    </div>
+                                    <div id="obv-text" class="obv-text">載入中...</div>
+                                    <div class="obv-note">* 目前使用內建示範資料，日後可替換為即時資料來源。</div>
+                                </div>
                             </div>
                             <div id="fundamental-tab" class="tab-pane">
                                 <div id="fundamental-content" class="content-area">載入中...</div>
@@ -726,5 +775,6 @@
     <!-- 載入腳本 -->
     <script src="config.js"></script>
     <script src="script.js"></script>
+    <script src="obv-demo.js"></script>
 </body>
 </html>
